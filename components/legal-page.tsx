@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react'
 import Link from 'next/link'
-import { ArrowLeft, Leaf } from 'lucide-react'
+import { ArrowLeft } from 'lucide-react'
 import { SiteFooter } from '@/components/site-footer'
+import { SustainLogo } from '@/components/sustain-logo'
 
 export function LegalPage({
   title,
@@ -16,14 +17,8 @@ export function LegalPage({
     <main className="min-h-screen bg-background text-foreground">
       <header className="border-b border-border">
         <div className="mx-auto flex max-w-3xl items-center justify-between px-6 py-6 lg:px-8">
-          <Link
-            href="/"
-            className="flex items-center gap-2 font-semibold tracking-tight text-foreground"
-          >
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-accent text-accent-foreground">
-              <Leaf className="h-4 w-4" />
-            </span>
-            SustainEstates
+          <Link href="/" className="flex items-center text-foreground">
+            <SustainLogo />
           </Link>
           <Link
             href="/"

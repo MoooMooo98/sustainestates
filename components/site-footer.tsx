@@ -1,4 +1,4 @@
-import { Leaf } from 'lucide-react'
+import { SustainLogo } from '@/components/sustain-logo'
 
 const groups = [
   {
@@ -21,12 +21,7 @@ export function SiteFooter() {
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <div className="grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-5">
-            <div className="flex items-center gap-2 font-semibold tracking-tight text-foreground">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-accent text-accent-foreground">
-                <Leaf className="h-4 w-4" />
-              </span>
-              SustainEstates
-            </div>
+            <SustainLogo showTagline className="text-foreground" />
             <p className="mt-5 max-w-sm text-pretty leading-relaxed text-muted-foreground">
               Real estate consulting and asset optimization for a more sustainable,
               higher-performing built environment.
