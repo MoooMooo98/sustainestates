@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Menu, X, Leaf } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
+import { SustainLogo } from '@/components/sustain-logo'
 
 const links = [
   { label: 'Mission', href: '#mission' },
@@ -32,11 +33,12 @@ export function SiteNav() {
       }`}
     >
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 lg:px-10">
-        <a href="#top" className="flex items-center gap-2 font-semibold tracking-tight">
-          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-accent text-accent-foreground">
-            <Leaf className="h-4 w-4" />
-          </span>
-          <span className={scrolled ? 'text-foreground' : 'text-background'}>SustainEstates</span>
+        <a
+          href="#top"
+          className={`flex items-center ${scrolled ? 'text-foreground' : 'text-background'}`}
+          aria-label="SustainEstates home"
+        >
+          <SustainLogo />
         </a>
 
         <div className="hidden items-center gap-8 md:flex">
