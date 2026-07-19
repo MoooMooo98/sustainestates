@@ -57,11 +57,11 @@ export function SiteFooter() {
         <div className="mt-14 flex flex-col gap-4 border-t border-border pt-8 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
           <p>&copy; {new Date().getFullYear()} SustainEstates. All rights reserved.</p>
           <div className="flex gap-6">
-            <a href="#" className="transition-colors hover:text-accent">
-              Privacy
+            <a href="/impressum" className="transition-colors hover:text-accent">
+              Impressum
             </a>
-            <a href="#" className="transition-colors hover:text-accent">
-              Terms
+            <a href="/datenschutz" className="transition-colors hover:text-accent">
+              Datenschutz
             </a>
           </div>
         </div>
