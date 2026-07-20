@@ -17,7 +17,6 @@ export async function login(_prev: LoginState, formData: FormData): Promise<Logi
   const { data, error } = await supabase.auth.signInWithPassword({ email, password })
 
   if (error) {
-    console.log("[v0] admin login error:", error.status, error.message)
     return { error: "Anmeldung fehlgeschlagen. Bitte Zugangsdaten prüfen." }
   }
 
