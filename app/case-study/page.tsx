@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { Download } from "lucide-react"
 import { PageShell } from "@/components/page-shell"
 import { PageHero } from "@/components/page-hero"
 import { CtaBand } from "@/components/cta-band"
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 }
 
 export default function CaseStudyPage() {
-  const { headline, subtitle, rows, cta, image, imageAlt } = caseStudy
+  const { headline, subtitle, rows, cta, ctaHref, image, imageAlt } = caseStudy
   return (
     <PageShell>
       <PageHero headline={headline} sub={subtitle} image={image} imageAlt={imageAlt} />
@@ -35,9 +36,13 @@ export default function CaseStudyPage() {
         <Reveal delay={0.1}>
           <div className="mt-10 text-center">
             <a
-              href="/kontakt"
-              className="inline-flex items-center justify-center rounded-full border border-border px-8 py-4 text-sm font-medium text-foreground transition-colors hover:border-accent hover:text-accent"
+              href={ctaHref}
+              download
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-border px-8 py-4 text-sm font-medium text-foreground transition-colors hover:border-accent hover:text-accent"
             >
+              <Download className="h-4 w-4" />
               {cta}
             </a>
           </div>

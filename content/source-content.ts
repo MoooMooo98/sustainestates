@@ -279,6 +279,7 @@ export const caseStudy = {
     },
   ],
   cta: "FaaS - Onepager herunterladen",
+  ctaHref: "/SustainEstates-Onepager.pdf",
   image: "/source/case-study-hero.png",
   imageAlt: "Bürobestand NRW – Case Study",
 } as const
