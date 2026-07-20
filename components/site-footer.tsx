@@ -40,7 +40,7 @@ export function SiteFooter() {
                       href={item.href}
                       className="text-sm text-muted-foreground transition-colors hover:text-accent"
                     >
-                      {item.label === 'FaaS – Feasibility as a Service' ? 'FaaS' : item.label}
+                      {item.label}
                     </Link>
                   </li>
                 ))}

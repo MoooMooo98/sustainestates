@@ -68,7 +68,7 @@ export function SiteNav({ overHero = false }: SiteNavProps) {
                     : 'text-muted-foreground'
               }`}
             >
-              {item.label === 'FaaS – Feasibility as a Service' ? 'FaaS' : item.label}
+              {item.label}
             </Link>
           ))}
           <Link
