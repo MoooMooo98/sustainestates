@@ -12,7 +12,7 @@ import { SiteFooter } from '@/components/site-footer'
 export default function Page() {
   return (
     <main className="bg-background">
-      <SiteNav />
+      <SiteNav overHero />
       <Hero />
       <Mission />
       <ScrollShowcase />

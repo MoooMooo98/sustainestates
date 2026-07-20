@@ -1,21 +1,10 @@
+import Link from 'next/link'
 import { SustainLogo } from '@/components/sustain-logo'
-
-const groups = [
-  {
-    heading: 'Company',
-    links: ['Mission', 'Services', 'Process', 'Results'],
-  },
-  {
-    heading: 'Services',
-    links: ['Property Analysis', 'Renovation Planning', 'ESG Strategy', 'Asset Management'],
-  },
-  {
-    heading: 'Connect',
-    links: ['LinkedIn', 'Instagram', 'Contact', 'Careers'],
-  },
-]
+import { navItems, legalNavItems, brand } from '@/content/source-content'
 
 export function SiteFooter() {
+  const year = new Date().getFullYear()
+
   return (
     <footer className="border-t border-border bg-background py-16">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
@@ -23,41 +12,73 @@ export function SiteFooter() {
           <div className="lg:col-span-5">
             <SustainLogo showTagline className="text-foreground" />
             <p className="mt-5 max-w-sm text-pretty leading-relaxed text-muted-foreground">
-              Real estate consulting and asset optimization for a more sustainable,
-              higher-performing built environment.
+              {brand.legalName} — Investment-Grade Feasibility für Bestandsimmobilien.
             </p>
+            <address className="mt-6 not-italic text-sm leading-relaxed text-muted-foreground">
+              Breite Straße 3, 40213 Düsseldorf, Deutschland
+              <br />
+              <a href="tel:+49211540596009" className="transition-colors hover:text-accent">
+                +49 211 5405 96009
+              </a>
+              <br />
+              <a
+                href="mailto:info@sustainestates.com"
+                className="transition-colors hover:text-accent"
+              >
+                info@sustainestates.com
+              </a>
+            </address>
           </div>
 
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:col-span-7">
-            {groups.map((group) => (
-              <div key={group.heading}>
-                <h4 className="text-sm font-medium text-foreground">{group.heading}</h4>
-                <ul className="mt-4 space-y-3">
-                  {group.links.map((link) => (
-                    <li key={link}>
-                      <a
-                        href="#"
-                        className="text-sm text-muted-foreground transition-colors hover:text-accent"
-                      >
-                        {link}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+            <div className="col-span-2 sm:col-span-2">
+              <h4 className="text-sm font-medium text-foreground">Navigation</h4>
+              <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-3">
+                {navItems.map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className="text-sm text-muted-foreground transition-colors hover:text-accent"
+                    >
+                      {item.label === 'FaaS – Feasibility as a Service' ? 'FaaS' : item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="text-sm font-medium text-foreground">Rechtliches</h4>
+              <ul className="mt-4 space-y-3">
+                {legalNavItems.map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className="text-sm text-muted-foreground transition-colors hover:text-accent"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
 
         <div className="mt-14 flex flex-col gap-4 border-t border-border pt-8 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-          <p>&copy; {new Date().getFullYear()} SustainEstates. All rights reserved.</p>
+          <p>
+            &copy; {year} {brand.legalName}. Alle Rechte vorbehalten.
+          </p>
           <div className="flex gap-6">
-            <a href="/impressum" className="transition-colors hover:text-accent">
-              Impressum
-            </a>
-            <a href="/datenschutz" className="transition-colors hover:text-accent">
-              Datenschutz
-            </a>
+            {legalNavItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="transition-colors hover:text-accent"
+              >
+                {item.label}
+              </Link>
+            ))}
           </div>
         </div>
       </div>
