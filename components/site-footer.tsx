@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { SustainLogo } from '@/components/sustain-logo'
+import { CookieSettingsLink } from '@/components/cookie-settings-link'
 import { navItems, legalNavItems, brand } from '@/content/source-content'
 
 export function SiteFooter() {
@@ -69,7 +70,7 @@ export function SiteFooter() {
           <p>
             &copy; {year} {brand.legalName}. Alle Rechte vorbehalten.
           </p>
-          <div className="flex gap-6">
+          <div className="flex flex-wrap gap-6">
             {legalNavItems.map((item) => (
               <Link
                 key={item.href}
@@ -79,6 +80,7 @@ export function SiteFooter() {
                 {item.label}
               </Link>
             ))}
+            <CookieSettingsLink />
           </div>
         </div>
       </div>
