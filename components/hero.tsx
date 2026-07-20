@@ -1,9 +1,14 @@
 'use client'
 
+import Image from 'next/image'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
+import { homepage, brand } from '@/content/source-content'
 
 export function Hero() {
+  const { hero } = homepage
+
   return (
     <section id="top" className="relative flex min-h-screen items-end overflow-hidden bg-primary">
       <motion.div
@@ -12,12 +17,15 @@ export function Hero() {
         animate={{ scale: 1 }}
         transition={{ duration: 2.4, ease: [0.16, 1, 0.3, 1] }}
       >
-        <img
-          src="/hero-building.png"
-          alt="Modern sustainable building facade at golden hour"
-          className="h-full w-full object-cover"
+        <Image
+          src={hero.image || '/placeholder.svg'}
+          alt={hero.imageAlt}
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/50 to-primary/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/55 to-primary/20" />
       </motion.div>
 
       <div className="relative mx-auto w-full max-w-7xl px-6 pb-20 pt-32 lg:px-10 lg:pb-28">
@@ -28,26 +36,25 @@ export function Hero() {
           className="mb-6 flex items-center gap-3 text-sm uppercase tracking-[0.25em] text-background/70"
         >
           <span className="h-px w-10 bg-accent" />
-          Sustainable Real Estate Strategy
+          {brand.tagline}
         </motion.p>
 
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
-          className="max-w-4xl text-balance text-5xl font-semibold leading-[0.95] tracking-tight text-background sm:text-6xl lg:text-8xl"
+          className="max-w-5xl text-balance text-4xl font-semibold leading-[1.0] tracking-tight text-background sm:text-6xl lg:text-7xl"
         >
-          Building Value. Sustainably.
+          {hero.headline}
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.75 }}
-          className="mt-8 max-w-xl text-pretty text-lg leading-relaxed text-background/80"
+          className="mt-8 max-w-2xl text-pretty text-lg leading-relaxed text-background/80"
         >
-          We help owners and investors optimize property performance through smart
-          construction, renovation, and ESG-driven strategy — growing long-term asset value.
+          {hero.body}
         </motion.p>
 
         <motion.div
@@ -56,19 +63,19 @@ export function Hero() {
           transition={{ duration: 0.9, delay: 0.9 }}
           className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center"
         >
-          <a
-            href="#contact"
+          <Link
+            href={brand.primaryCta.href}
             className="group inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-4 text-sm font-medium text-accent-foreground transition-transform hover:scale-105"
           >
-            Get a Consultation
+            {brand.primaryCta.label}
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </a>
-          <a
-            href="#services"
+          </Link>
+          <Link
+            href="/leistungen"
             className="inline-flex items-center justify-center gap-2 rounded-full border border-background/30 px-7 py-4 text-sm font-medium text-background transition-colors hover:bg-background/10"
           >
-            Explore Services
-          </a>
+            Leistungen entdecken
+          </Link>
         </motion.div>
       </div>
     </section>

@@ -21,51 +21,51 @@ type Frame = {
 const frames: Frame[] = [
   {
     src: '/tour/01-exterior-wide.png',
-    tag: '01 — The Property',
-    title: 'A building with potential',
-    body: 'Every transformation begins with an existing asset — evaluated for structure, location, and the value hidden within.',
+    tag: '01 — Bestand',
+    title: 'Ein Objekt mit Potenzial',
+    body: 'Jede Entscheidung beginnt mit dem Bestand — bewertet nach Struktur, Lage und dem Wert, der im Objekt steckt.',
   },
   {
     src: '/tour/02-facade.png',
-    tag: '02 — The Façade',
-    title: 'Reading the details',
-    body: 'We study materials, windows, and envelope performance to plan a targeted, high-impact retrofit.',
+    tag: '02 — Analyse',
+    title: 'Technische Bestandsanalyse',
+    body: 'Wir prüfen Materialien, Hülle und technische Substanz, um Sanierungsbedarf und CapEx belastbar einzuordnen.',
   },
   {
     src: '/tour/03-entrance.png',
-    tag: '03 — The Threshold',
-    title: 'Stepping inside',
-    body: 'Beyond the entrance lies the real opportunity: space waiting to be reimagined.',
+    tag: '03 — As-is / Stabilisieren',
+    title: 'Status quo sichern',
+    body: 'Mindestmaßnahmen und kurzfristige Risikoreduktion — die Basislinie für jede weitere Entscheidung.',
   },
   {
     src: '/tour/04-interior-before.png',
-    tag: '04 — Before',
-    title: 'Dated and inefficient',
-    body: 'Poor lighting, worn finishes, and wasted energy — the honest starting point for meaningful change.',
+    tag: '04 — Light Refurbishment',
+    title: 'Gezielte Sanierung',
+    body: 'Technische Stabilisierung, ESG-Baseline und vermietungsfähige Optimierung des Bestands.',
   },
   {
     src: '/tour/05-transition.png',
-    tag: '05 — In Progress',
-    title: 'The transformation',
-    body: 'Walls reconfigured, systems modernized, and natural light reintroduced throughout.',
+    tag: '05 — Value-add',
+    title: 'Repositionierung',
+    body: 'Nutzungs- und Qualitätsverbesserung mit CapEx- und Miethebel — der Wert wird aktiv gehoben.',
   },
   {
     src: '/tour/06-interior-after.png',
-    tag: '06 — After',
-    title: 'A space reborn',
-    body: 'A bright, efficient, adaptable interior — designed for how people work and live today.',
+    tag: '06 — Nutzung neu gedacht',
+    title: 'Marktfähige Flächen',
+    body: 'Helle, effiziente und anpassbare Innenräume — ausgerichtet auf heutige Nutzeranforderungen.',
   },
   {
     src: '/tour/07-exterior-renovated.png',
-    tag: '07 — Renewed',
-    title: 'Sustainable by design',
-    body: 'Solar, greenery, and an upgraded envelope turn the exterior into a statement of performance.',
+    tag: '07 — Maximum Value',
+    title: 'ESG-optimierte Transformation',
+    body: 'Umfassende Repositionierung und ESG-Optimierung sichern langfristige Markt- und Exit-Fähigkeit.',
   },
   {
     src: '/tour/08-final-wide.png',
-    tag: '08 — Delivered',
-    title: 'Value, compounded',
-    body: 'A finished, sustainable property worth more to owners, tenants, and the planet.',
+    tag: '08 — Entscheidung',
+    title: 'Proceed / Optimize / Hold / Exit',
+    body: 'Eine entscheidungsreife Handlungsempfehlung mit CapEx, Risiko, ESG und ROI — belastbar begründet.',
   },
 ]
 
@@ -157,7 +157,7 @@ export function ScrollShowcase() {
         {/* section label */}
         <div className="absolute inset-x-0 top-24 mx-auto max-w-7xl px-6 lg:px-10">
           <span className="text-xs font-medium uppercase tracking-[0.3em] text-white/60">
-            The SustainEstates Method
+            Vom Bestand zur Entscheidung — das Szenarienmodell
           </span>
         </div>
 
@@ -190,7 +190,7 @@ export function ScrollShowcase() {
         {/* progress bar + counter */}
         <div className="absolute inset-x-0 bottom-10 mx-auto max-w-7xl px-6 lg:px-10">
           <div className="mb-4 flex items-center justify-between text-xs uppercase tracking-[0.3em] text-white/50">
-            <span>Scroll to explore</span>
+            <span>Scrollen zum Entdecken</span>
             <span className="tabular-nums text-white/70">
               {String(active + 1).padStart(2, '0')} / {String(frames.length).padStart(2, '0')}
             </span>

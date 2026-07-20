@@ -1,27 +1,24 @@
 import { SiteNav } from '@/components/site-nav'
 import { Hero } from '@/components/hero'
-import { Mission } from '@/components/mission'
+import { WhySection, StabilitySection, ValueSection, DigitalSection } from '@/components/home-sections'
 import { ScrollShowcase } from '@/components/scroll-showcase'
-import { Services } from '@/components/services'
-import { Process } from '@/components/process'
-import { Results } from '@/components/results'
-import { Testimonials } from '@/components/testimonials'
-import { Contact } from '@/components/contact'
+import { CtaBand } from '@/components/cta-band'
 import { SiteFooter } from '@/components/site-footer'
 
 export default function Page() {
   return (
-    <main className="bg-background">
+    <>
       <SiteNav overHero />
-      <Hero />
-      <Mission />
-      <ScrollShowcase />
-      <Services />
-      <Process />
-      <Results />
-      <Testimonials />
-      <Contact />
+      <main className="bg-background">
+        <Hero />
+        <WhySection />
+        <ScrollShowcase />
+        <StabilitySection />
+        <ValueSection />
+        <DigitalSection />
+        <CtaBand />
+      </main>
       <SiteFooter />
-    </main>
+    </>
   )
 }

@@ -1,358 +1,20 @@
 /**
  * SustainEstates — Content Manifest (source of truth)
  * ---------------------------------------------------
- * Rules (from the project brief):
- *  - All texts from the uploaded screenshots/documents are BINDING and must be used 1:1.
- *  - Do NOT invent, paraphrase or shorten supplied texts.
- *  - Where the full paragraph text lives only inside a screenshot that has not yet been
- *    provided in machine-readable form, the field is marked with `status: "pending-source"`
- *    and `body: PENDING`. These MUST be filled from the source screenshots before launch.
- *  - Confirmed headlines, CTAs, metrics and scenario names (visible verbatim in the brief)
- *    are stored with `status: "confirmed"`.
- *
- * Each entry documents: source filename, page, section, exact headline, supporting text,
- * corresponding image + alt text, and whether the asset is a clean original or a screenshot.
+ * All texts below are taken 1:1 from the live site:
+ *   https://n1755369.websitebuilder.online/
+ * Images are the originals downloaded from that site into /public/source.
  */
 
-export const PENDING = "__PENDING_SOURCE_TEXT__" as const
-
-export type ContentStatus = "confirmed" | "pending-source"
-export type AssetKind = "clean-original" | "screenshot-reference" | "pending"
-
-export interface ContentImage {
-  /** Local path once the clean original / cropped asset is imported into /public */
-  src: string | null
-  alt: string
-  kind: AssetKind
-  /** Original source screenshot filename this image relates to */
-  sourceFile: string
-}
-
-export interface ContentSection {
-  id: string
-  sourceFile: string
-  page: string
-  section: string
-  headline: string
-  subheadline?: string
-  /** Exact 1:1 body text. PENDING until sourced from the screenshot. */
-  body: string
-  bullets?: string[]
-  image?: ContentImage
-  status: ContentStatus
-}
-
 /* ------------------------------------------------------------------ */
-/* HOMEPAGE                                                            */
-/* ------------------------------------------------------------------ */
-export const homepage: ContentSection[] = [
-  {
-    id: "home-hero",
-    sourceFile: "IMG_4366",
-    page: "Homepage",
-    section: "Hero",
-    headline: "Investment-Grade Feasibility für Bestandsimmobilien",
-    body: PENDING,
-    image: {
-      src: null,
-      alt: "Gebäude-Transformation – Bestand zu Potenzial",
-      kind: "pending",
-      sourceFile: "IMG_4366",
-    },
-    status: "pending-source",
-  },
-  {
-    id: "home-why",
-    sourceFile: "IMG_4367",
-    page: "Homepage",
-    section: "Warum SustainEstates",
-    headline: "Warum SustainEstates",
-    subheadline: "Technische Tiefe. Investorenlogik. Umsetzungserfahrung.",
-    body: PENDING,
-    image: {
-      src: null,
-      alt: "SustainEstates Empfang / Lobby",
-      kind: "pending",
-      sourceFile: "IMG_4367",
-    },
-    status: "pending-source",
-  },
-  {
-    id: "home-decision-room",
-    sourceFile: "IMG_4368",
-    page: "Homepage",
-    section: "Investment Decision Room",
-    headline: "Investment Decision Room",
-    body: PENDING,
-    image: {
-      src: null,
-      alt: "Investment Decision Room mit Architekturplänen, Tablet, Reports, Charts und digitalem Gebäudemodell",
-      kind: "pending",
-      sourceFile: "IMG_4368",
-    },
-    status: "pending-source",
-  },
-  {
-    id: "home-stability",
-    sourceFile: "IMG_4369",
-    page: "Homepage",
-    section: "Planbarkeit & Stabilität",
-    headline: "Wir sichern Planbarkeit und Stabilität in einem volatilen Marktumfeld",
-    body: PENDING,
-    image: {
-      src: null,
-      alt: "Office / Bürogebäude",
-      kind: "pending",
-      sourceFile: "IMG_4369",
-    },
-    status: "pending-source",
-  },
-  {
-    id: "home-value",
-    sourceFile: "IMG_4370",
-    page: "Homepage",
-    section: "Wertsteigerung & Zukunftsfähigkeit",
-    headline: "Das Potenzial für Wertsteigerung und Zukunftsfähigkeit",
-    body: PENDING,
-    image: {
-      src: null,
-      alt: "Gebäude mit technischen, ESG-, Energie-, Risiko- und Wertdaten",
-      kind: "pending",
-      sourceFile: "IMG_4370",
-    },
-    status: "pending-source",
-  },
-  {
-    id: "home-digital-capture",
-    sourceFile: "IMG_4371",
-    page: "Homepage",
-    section: "Digitale Gebäudeerfassung",
-    headline: "Digitale Gebäudeerfassung",
-    body: PENDING,
-    bullets: ["ökologisch", "wirtschaftlich", "digital"],
-    image: {
-      src: null,
-      alt: "Laser-Scanning / Digital-Twin Visual",
-      kind: "pending",
-      sourceFile: "IMG_4371",
-    },
-    status: "pending-source",
-  },
-]
-
-/* ------------------------------------------------------------------ */
-/* ZIELGRUPPEN                                                         */
-/* ------------------------------------------------------------------ */
-export const zielgruppen: ContentSection[] = [
-  {
-    id: "zielgruppen-intro",
-    sourceFile: "IMG_4372",
-    page: "Zielgruppen",
-    section: "Übersicht",
-    headline: "Zielgruppen",
-    body: PENDING,
-    bullets: ["Bestandshalter", "Asset Manager", "Investoren / Family Offices", "Projektentwickler"],
-    image: {
-      src: null,
-      alt: "Gebäude mit ESG-, CapEx-, Performance- und Risiko-Overlays",
-      kind: "pending",
-      sourceFile: "IMG_4372",
-    },
-    status: "pending-source",
-  },
-]
-
-/* ------------------------------------------------------------------ */
-/* HERAUSFORDERUNG                                                     */
-/* ------------------------------------------------------------------ */
-export const herausforderung: ContentSection[] = [
-  {
-    id: "herausforderung-hero",
-    sourceFile: "IMG_4375",
-    page: "Herausforderung",
-    section: "Hero",
-    headline: "Wir machen aus Bestandsimmobilien entscheidungsfähige Investment Cases",
-    subheadline: "Added Value in Built Environment",
-    body: PENDING,
-    image: {
-      src: null,
-      alt: "Gebäude-Erweiterung – Before-to-Potential Szene",
-      kind: "pending",
-      sourceFile: "IMG_4375",
-    },
-    status: "pending-source",
-  },
-  {
-    id: "herausforderung-market",
-    sourceFile: "IMG_4376",
-    page: "Herausforderung",
-    section: "Marktdruck & Entscheidungsfragen",
-    headline: "Marktdruck & zentrale Entscheidungsfragen",
-    body: PENDING,
-    status: "pending-source",
-  },
-  {
-    id: "herausforderung-board",
-    sourceFile: "IMG_4377",
-    page: "Herausforderung",
-    section: "Boardfähige Entscheidungsvorlage",
-    headline: "Boardfähige Entscheidungsvorlage",
-    subheadline: "ROI, CapEx- & ESG-Roadmap",
-    body: PENDING,
-    bullets: ["10–15 Tage", "4 Szenarien", "IC-ready Memo"],
-    image: {
-      src: null,
-      alt: "Technisches Gebäude",
-      kind: "pending",
-      sourceFile: "IMG_4377",
-    },
-    status: "confirmed",
-  },
-]
-
-/* ------------------------------------------------------------------ */
-/* LEISTUNGEN                                                          */
-/* ------------------------------------------------------------------ */
-export const leistungen: ContentSection[] = [
-  {
-    id: "leistungen-hero",
-    sourceFile: "IMG_4378",
-    page: "Leistungen",
-    section: "Hero",
-    headline: "Investmenttaugliche Feasibility Analyse in 10–15 Tagen",
-    subheadline: "bei ausreichender Datenlage",
-    body: PENDING,
-    status: "pending-source",
-  },
-  {
-    id: "leistungen-conversion",
-    sourceFile: "IMG_4379",
-    page: "Leistungen",
-    section: "Conversion",
-    headline: "Von Objektunsicherheit zur Investitionsentscheidung",
-    body: PENDING,
-    image: {
-      src: null,
-      alt: "Leistungen – Abschluss / Conversion",
-      kind: "pending",
-      sourceFile: "IMG_4379",
-    },
-    status: "pending-source",
-  },
-]
-
-/* ------------------------------------------------------------------ */
-/* FAAS – Feasibility as a Service                                     */
-/* ------------------------------------------------------------------ */
-export interface Scenario {
-  key: "as-is" | "light" | "value-add" | "maximum"
-  name: string
-  body: string
-  status: ContentStatus
-}
-
-export const faasScenarios: Scenario[] = [
-  { key: "as-is", name: "As-is / Stabilisieren", body: PENDING, status: "pending-source" },
-  { key: "light", name: "Light Refurbishment", body: PENDING, status: "pending-source" },
-  { key: "value-add", name: "Value-add Repositioning", body: PENDING, status: "pending-source" },
-  { key: "maximum", name: "Maximum Value / Transformation", body: PENDING, status: "pending-source" },
-]
-
-export const faas: ContentSection[] = [
-  {
-    id: "faas-hero",
-    sourceFile: "IMG_4380",
-    page: "FaaS",
-    section: "Hero",
-    headline: "Feasibility as a Service – FaaS",
-    body: PENDING,
-    bullets: ["Proceed", "Optimize", "Hold", "Exit"],
-    image: {
-      src: null,
-      alt: "Wohn- oder Gewerbegebäude",
-      kind: "pending",
-      sourceFile: "IMG_4380",
-    },
-    status: "pending-source",
-  },
-  {
-    id: "faas-scenarios",
-    sourceFile: "IMG_4381",
-    page: "FaaS",
-    section: "Vier Szenarien",
-    headline: "Vier Szenarien",
-    body: PENDING,
-    image: {
-      src: null,
-      alt: "Vier-Szenarien-Visual mit Bestandsgebäude und Vier-Bild-Vergleich (Scenario Explorer)",
-      kind: "pending",
-      sourceFile: "IMG_4382",
-    },
-    status: "confirmed",
-  },
-]
-
-/* ------------------------------------------------------------------ */
-/* DELIVERABLES                                                        */
-/* ------------------------------------------------------------------ */
-export const deliverables: ContentSection[] = [
-  {
-    id: "deliverables-main",
-    sourceFile: "IMG_4383",
-    page: "Deliverables",
-    section: "Was Sie nach dem Sprint erhalten",
-    headline: "Was Sie nach dem Sprint erhalten",
-    subheadline: "Deliverables",
-    body: PENDING,
-    status: "pending-source",
-  },
-]
-
-/* ------------------------------------------------------------------ */
-/* ÜBER UNS                                                            */
-/* ------------------------------------------------------------------ */
-export const ueberUns: ContentSection[] = [
-  {
-    id: "ueber-uns-resources",
-    sourceFile: "IMG_4373",
-    page: "Über uns",
-    section: "Unsere Ressourcen",
-    headline: "Unsere Ressourcen",
-    body: PENDING,
-    image: {
-      src: null,
-      alt: "Hochhaus-Architektur",
-      kind: "pending",
-      sourceFile: "IMG_4373",
-    },
-    status: "pending-source",
-  },
-  {
-    id: "ueber-uns-track-record",
-    sourceFile: "IMG_4374",
-    page: "Über uns",
-    section: "Track Record & Gründer",
-    headline: "Track Record",
-    body: PENDING,
-    image: {
-      src: null,
-      alt: "Bau-Team",
-      kind: "pending",
-      sourceFile: "IMG_4374",
-    },
-    status: "pending-source",
-  },
-]
-
-/* ------------------------------------------------------------------ */
-/* NAVIGATION                                                          */
+/* NAVIGATION + BRAND                                                 */
 /* ------------------------------------------------------------------ */
 export const navItems = [
   { label: "Startseite", href: "/" },
   { label: "Zielgruppen", href: "/zielgruppen" },
   { label: "Herausforderung", href: "/herausforderung" },
   { label: "Leistungen", href: "/leistungen" },
-  { label: "FaaS – Feasibility as a Service", href: "/faas" },
+  { label: "FaaS", href: "/faas" },
   { label: "Deliverables", href: "/deliverables" },
   { label: "Case Study", href: "/case-study" },
   { label: "Über uns", href: "/ueber-uns" },
@@ -369,4 +31,287 @@ export const brand = {
   legalName: "SustainEstates GmbH",
   tagline: "Added Value in Built Environment",
   primaryCta: { label: "Erstgespräch vereinbaren", href: "/kontakt" },
+  contact: {
+    person: "Reza Keschawarz",
+    phone: "+49 211 5405 96009",
+    phoneHref: "tel:+4921154059600",
+    email: "info@sustainestates.com",
+    address: "Breite Straße 3, 40213 Düsseldorf, Germany",
+  },
+} as const
+
+/* ------------------------------------------------------------------ */
+/* HOMEPAGE                                                            */
+/* ------------------------------------------------------------------ */
+export const homepage = {
+  hero: {
+    headline: "Investment-Grade Feasibility für Bestandsimmobilien",
+    body: "Wir analysieren Immobilien vor der Planung: Nutzungspotenzial, CapEx, ESG-Risiken, Miet- und Exit-Potenzial, Zeitplan und Umsetzungsrisiken — verdichtet zu einer entscheidungsreifen Vorlage für Eigentümer, Asset Manager und Investoren.",
+    image: "/source/home-hero.png",
+    imageAlt: "Bestandsgebäude in Transformation – von Bestand zu repositioniertem, nachhaltigem Objekt",
+  },
+  why: {
+    kicker: "Warum SustainEstates",
+    headline: "Technische Tiefe. Investorenlogik. Umsetzungserfahrung.",
+    body: [
+      "SustainEstates verbindet jahrzehntelange Erfahrung auf Bauherrn- und Investorenseite mit Projektentwicklung, Asset Management, ESG, Digitalisierung und Partnersteuerung. Wir liefern keine isolierte Planungsidee, sondern eine belastbare Entscheidungsgrundlage für Kapital, Nutzung und Umsetzung.",
+      "SustainEstates ist der Spezialist für investorenfähige Machbarkeitsstudien und Development-Entscheidungen bei Bestandsimmobilien — schnell, technisch belastbar, ESG-kompatibel und entscheidungsorientiert.",
+    ],
+    image: "/source/home-1.png",
+    imageAlt: "SustainEstates – Empfang und Beratungsumgebung",
+  },
+  stability: {
+    headline: "Wir sichern Planbarkeit und Stabilität in einem volatilen Marktumfeld",
+    lead: "Wer jetzt nicht handelt, riskiert sinkende Immobilienwerte, höhere Betriebskosten und geringeren Zugang zur Finanzierung.",
+    body: "SustainEstates unterstützt Eigentümer, Asset Manager und Investoren bei der schnellen Bewertung und Entwicklung von Bestandsimmobilien. Unser Feasibility Sprint verbindet technische Analyse, Marktpotenzial, ESG-Anforderungen, CapEx und Investorenlogik zu einer belastbaren Entscheidungsvorlage — bevor Planungskosten, Budgets und Zeit in die falsche Richtung laufen.",
+    image: "/source/home-3.png",
+    imageAlt: "Modernes Bürogebäude",
+  },
+  value: {
+    headline: "Das Potential für Wertsteigerung und Zukunftsfähigkeit",
+    body: [
+      "SustainEstates vereint technisches und regulatorisches Know-how mit jahrzehntelanger Erfahrung in Planung, Bauherrnvertretung und Betrieb.",
+      "Attraktivität für Investoren und Mieterbindung, Stabilität und Krisensicherheit, Zugang zum Sustainable Finance und weitere Wettbewerbsvorteile",
+      "Ziel ist es, durch ganzheitliche Beratung Mehrwert, Effizienz und Zukunftssicherheit für Immobilienprojekte zu schaffen.",
+    ],
+    image: "/source/home-2.png",
+    imageAlt: "Gebäude mit technischen, ESG-, Energie- und Wertdaten",
+  },
+  digital: {
+    headline: "Unsere Entwicklungen sind ökologisch, wirtschaftlich und digital",
+    body: "Unsere Leistungen schaffen Entscheidungsgrundlagen, um CapEx zielgerichtet und wertorientiert einzusetzen.",
+    pillars: ["Ökologisch", "Wirtschaftlich", "Digital"],
+    image: "/source/home-4.png",
+    imageAlt: "Digitale Gebäudeerfassung / Digital Twin",
+  },
+} as const
+
+/* ------------------------------------------------------------------ */
+/* ZIELGRUPPEN                                                         */
+/* ------------------------------------------------------------------ */
+export const zielgruppen = {
+  hero: {
+    headline: "Zielgruppen",
+    subheadline:
+      "Für Eigentümer, Asset Manager und Investoren, die vor einer Kapitalentscheidung stehen",
+    image: "/source/zielgruppen-hero.png",
+    imageAlt: "Gebäude mit ESG-, CapEx-, Performance- und Risiko-Overlays",
+  },
+  groups: [
+    {
+      name: "Bestandshalter",
+      body: "Priorisierung von CapEx, ESG-Maßnahmen und Objektstrategie.",
+    },
+    {
+      name: "Asset Manager",
+      body: "Entscheidungsvorlagen für Maßnahmen, Budgets, Vermietung und Exit.",
+    },
+    {
+      name: "Investoren / Family Offices",
+      body: "Vorprüfung von Ankauf, Repositionierung und Wertsteigerung.",
+    },
+    {
+      name: "Projektentwickler",
+      body: "Schnelle Validierung von Nutzung, Kosten, Zeit und Marktfähigkeit.",
+    },
+  ],
+  resources: {
+    headline: "Unsere Ressourcen",
+    items: [
+      "Kuratiertes Partnernetzwerk aus dem technischen, kaufmännischen und Infrastruktur- sowie Energiedienstleistungsbereich",
+      "Umfangreiches Track Record des Gründers und sein Team",
+      "Zufriedene und wiederkehrende Kunden",
+    ],
+    images: ["/source/zielgruppen-1.jpg", "/source/zielgruppen-2.jpg", "/source/zielgruppen-3.png"],
+  },
+} as const
+
+/* ------------------------------------------------------------------ */
+/* HERAUSFORDERUNG                                                     */
+/* ------------------------------------------------------------------ */
+export const herausforderung = {
+  hero: {
+    kicker: "Added Value in Built Environment",
+    headline: "Wir machen aus Bestandsimmobilien entscheidungsfähige Investment Cases",
+    tag: "Herausforderung: Bestandsimmobilien stehen unter Entscheidungsdruck",
+    image: "/source/herausforderung-hero.png",
+    imageAlt: "Bestandsgebäude mit Erweiterung – Before-to-Potential Szene",
+  },
+  body: {
+    headline:
+      "Wir identifizieren die wirtschaftlich beste Handlungsoption für Ihr Bestandsobjekt",
+    paragraphs: [
+      "Hohe Finanzierungskosten, steigende CapEx-Anforderungen, ESG-Regulatorik, veränderte Nutzeranforderungen und unsichere Exit-Märkte erhöhen den Druck auf Eigentümer und Asset Manager.",
+      "Viele Objekte haben Potenzial — aber ohne belastbare Vorprüfung werden Planung, Budget und Zeit häufig in die falsche Richtung gelenkt.",
+    ],
+    questions: [
+      "Ist das Objekt haltbar, entwickelbar oder verkaufsreif?",
+      "Welche Nutzung erzeugt den höchsten risikoadjustierten Wert?",
+      "Welche CapEx-Maßnahmen sind zwingend, welche wertsteigernd?",
+      "Welche ESG-Maßnahmen sichern Marktgängigkeit und Finanzierung?",
+      "Welche Entscheidung kann vor LP2/LP3 belastbar getroffen werden?",
+    ],
+  },
+} as const
+
+/* ------------------------------------------------------------------ */
+/* LEISTUNGEN                                                          */
+/* ------------------------------------------------------------------ */
+export const leistungen = {
+  hero: {
+    headline: "Boardfähige Entscheidungsvorlage",
+    subheadline: "ROI, CapEx- & ESG-Roadmap",
+    image: "/source/leistungen-hero.png",
+    imageAlt: "Technisch anspruchsvolles Bestandsgebäude",
+  },
+  highlights: [
+    "10–15 Tage bis zur belastbaren Entscheidung bei ausreichender Datenlage",
+    "4 Szenarien von „As-is“ bis „Maximum Value“",
+    "IC-ready Memo mit CapEx, Risiko, ESG und Handlungsempfehlung",
+  ],
+  metrics: [
+    { value: "10–15", label: "Tage bis zur Entscheidung" },
+    { value: "4", label: "Szenarien" },
+    { value: "IC-ready", label: "Memo" },
+  ],
+  sprintHeadline:
+    "Investment taugliche Feasibility Analyse in 10–15 Tagen (bei ausreichender Datenlage)",
+  sprintSub: "Entdecken Sie die Potentiale Ihrer Immobilie",
+  description: {
+    headline: "Leistungsbeschreibung",
+    body: "Wir prüfen Bestandsimmobilien auf Nutzungspotenzial, Sanierungsbedarf, ESG-Risiken, CapEx-Erfordernisse, Miet- und Exit-Fähigkeit. Daraus entwickeln wir Szenarien mit klarer wirtschaftlicher Bewertung und Handlungsempfehlung. Ziel ist nicht die nächste Studie, sondern eine entscheidungsfähige Grundlage für Eigentümer, Investment Committee, Asset Management und Finanzierungspartner.",
+  },
+  conversion: {
+    headline: "Von Objektunsicherheit zur Investitionsentscheidung",
+    body: "Sie haben ein Objekt mit Leerstand, Sanierungsdruck oder unklarer Strategie?",
+    accent: "Wir strukturieren die Entscheidungsgrundlage.",
+    cta: "Erstgespräch vereinbaren",
+  },
+} as const
+
+/* ------------------------------------------------------------------ */
+/* FAAS – Feasibility as a Service                                     */
+/* ------------------------------------------------------------------ */
+export const faas = {
+  hero: {
+    headline: "Feasibility as a Service - FaaS",
+    body: "SustainEstates liefert eine strukturierte Machbarkeitsstudie für Bestandsimmobilien, bevor größere Planungsbudgets ausgelöst werden. Wir verbinden technische Bestandsanalyse, Markt- und Finanzlogik, ESG-Anforderungen, CapEx-Schätzung, Terminrisiken und Investorenperspektive zu einer entscheidungsreifen Handlungsempfehlung.",
+    resultLabel: "Ergebnis:",
+    result: "„Proceed / Optimize / Hold / Exit“ - mit Begründung",
+    image: "/source/faas-hero.png",
+    imageAlt: "Wohn- und Gewerbegebäude",
+  },
+  scenariosHeadline: "Szenarienmodell",
+  scenariosSub: "Vier Szenarien. Eine belastbare Entscheidung.",
+  scenarios: [
+    {
+      key: "as-is",
+      number: "Szenario 1",
+      name: "As-is / Stabilisieren",
+      body: "Status quo, Mindestmaßnahmen, kurzfristige Risikoreduktion.",
+    },
+    {
+      key: "light",
+      number: "Szenario 2",
+      name: "Light Refurbishment",
+      body: "Gezielte Sanierung, technische Stabilisierung, ESG-Baseline, vermietungsfähige Optimierung.",
+    },
+    {
+      key: "value-add",
+      number: "Szenario 3",
+      name: "Value-add Repositioning",
+      body: "Nutzungs- und Qualitätsverbesserung mit CapEx-/Miethebel.",
+    },
+    {
+      key: "maximum",
+      number: "Szenario 4",
+      name: "Maximum Value / Transformation",
+      body: "Umfassende Repositionierung, ESG-Optimierung, langfristige Markt- und Exit-Fähigkeit.",
+    },
+  ],
+  images: ["/source/faas-1.png", "/source/faas-2.png"],
+} as const
+
+/* ------------------------------------------------------------------ */
+/* DELIVERABLES                                                        */
+/* ------------------------------------------------------------------ */
+export const deliverables = {
+  kicker: "Was Sie nach dem Sprint erhalten",
+  headline: "Deliverables",
+  items: [
+    "Executive Summary für Geschäftsführung, Investment Committee oder Eigentümer",
+    "Szenarienvergleich mit CapEx, Zeit, Risiko und Werthebel",
+    "ESG-/Dekarbonisierungslogik auf Maßnahmenebene",
+    "Markt- und Nutzungseinschätzung",
+    "Umsetzungsrisiken und Break Points",
+    "Varianten- und Handlungsempfehlung inkl. ROI und nächstem Entscheidungsschritt",
+    "Partnerkoordination aus dem technischen, kaufmännischen und Infrastruktur- sowie Energiedienstleistungsbereich inbegriffen",
+  ],
+  images: ["/source/deliverables-1.png", "/source/deliverables-2.png"],
+} as const
+
+/* ------------------------------------------------------------------ */
+/* CASE STUDY                                                          */
+/* ------------------------------------------------------------------ */
+export const caseStudy = {
+  headline: "Case Study",
+  subtitle: "Bürobestand 10.000 m², NRW (Beispielhafte Projektlogik)",
+  rows: [
+    {
+      label: "Ausgangslage",
+      body: "absehbarer Leerstand, technische Alterung, unklare Nachnutzung",
+    },
+    {
+      label: "Fragestellung",
+      body: "Halten, repositionieren, verkaufen oder transformieren?",
+    },
+    {
+      label: "Analyse",
+      body: "4 Szenarien, CapEx-Korridor, Mietpotenzial, ESG-Risiko, Zeitplan",
+    },
+    {
+      label: "Ergebnis",
+      body: "Empfehlung Value-add Repositioning vor Volltransformation",
+    },
+    {
+      label: "Entscheidungsnutzen",
+      body: "klare Budgetfreigabe / Planungsstart / Vermarktungsstrategie",
+    },
+  ],
+  cta: "FaaS - Onepager herunterladen",
+  image: "/source/case-study-hero.png",
+  imageAlt: "Bürobestand NRW – Case Study",
+} as const
+
+/* ------------------------------------------------------------------ */
+/* ÜBER UNS                                                            */
+/* ------------------------------------------------------------------ */
+export const ueberUns = {
+  kicker: "Ihr Partner in der Immobilienwirtschaft",
+  headline: "Über unsere Gesellschaft",
+  banner: "/source/ueber-banner.png",
+  founder: {
+    heading: "Der Gründer",
+    name: "Reza Keschawarz",
+    portrait: "/source/founder.jpg",
+    paragraphs: [
+      "Reza Keschawarz verfügt über langjährige internationale Erfahrung im ganzheitlichen Projektmanagement und in der Immobilienprojektentwicklung. Dabei begleitet er komplexe Vorhaben von der Konzeptphase bis zur Realisierung und dem Betrieb. Sein interdisziplinäres Netzwerk in der Bau-, Immobilien- und Energiebranche und sein professionelles Team schaffen die Grundlage für effiziente und zukunftsorientierte Lösungen.",
+      "Er hat 30 Jahre Erfahrung in der Branche: Bauherrenvertretung, Projektentwicklung, Asset Management, ESG, Digitalisierung und internationale Investorenlogik",
+      "Berufsbegleitend hat er seine Fachkompetenzen durch kaufmännisches Know-how sowie vertiefte Kenntnisse im Bereich ESG, Nachhaltigkeit und KI erweitert. Seine Projekte zeichnen sich durch die konsequente Schaffung nachhaltigen Mehrwerts und den Einsatz innovativer Methoden im Immobilienprojektmanagement aus.",
+    ],
+  },
+  memberships: {
+    heading: "Mitgliedschaften & Zertifikate",
+    items: [
+      "IHK Düsseldorf",
+      "Ingenieurkammer Bau NRW",
+      "Sustainable Real Estate Manager IREBS",
+      'Zertifizierung "AI for Business Transformation: Generative AI and Beyond" Imperial College London',
+      "DGNB Consultant",
+    ],
+  },
+  closing:
+    "SustainEstates GmbH ist ein innovatives Beratungs- und Dienstleistungsunternehmen für die Immobilienwirtschaft, mit einer starken Ausrichtung auf nachhaltige Projektentwicklung und digitale Prozesse.",
+  images: ["/source/ueber-1.jpg", "/source/ueber-2.jpg"],
+  cta: "Kontaktieren Sie uns",
 } as const
