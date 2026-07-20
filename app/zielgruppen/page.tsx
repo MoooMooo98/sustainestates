@@ -51,15 +51,29 @@ export default function ZielgruppenPage() {
               </ul>
             </Reveal>
             <Reveal delay={0.1}>
-              <div className="grid grid-cols-2 gap-4">
-                {resources.images.map((src, i) => (
-                  <div
-                    key={src}
-                    className={`relative overflow-hidden rounded-2xl ${i === 2 ? "col-span-2 aspect-[16/9]" : "aspect-square"}`}
-                  >
-                    <Image src={src || "/placeholder.svg"} alt="" fill sizes="(max-width:1024px) 50vw, 25vw" className="object-cover" />
-                  </div>
-                ))}
+              <div className="flex gap-4">
+                <div className="relative w-1/2 overflow-hidden rounded-2xl aspect-[3/4]">
+                  <Image
+                    src={resources.images[2] || "/placeholder.svg"}
+                    alt="Gründer von SustainEstates"
+                    fill
+                    sizes="(max-width:1024px) 50vw, 25vw"
+                    className="object-cover object-top"
+                  />
+                </div>
+                <div className="flex w-1/2 flex-col gap-4">
+                  {[resources.images[0], resources.images[1]].map((src) => (
+                    <div key={src} className="relative flex-1 overflow-hidden rounded-2xl">
+                      <Image
+                        src={src || "/placeholder.svg"}
+                        alt=""
+                        fill
+                        sizes="(max-width:1024px) 25vw, 12vw"
+                        className="object-cover"
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
             </Reveal>
           </div>
