@@ -8,6 +8,7 @@ const links = [
   { label: 'Mission', href: '#mission' },
   { label: 'Method', href: '#showcase' },
   { label: 'Services', href: '#services' },
+  { label: 'Feasibility Analyse', href: '/feasibility.html' },
   { label: 'Process', href: '#process' },
   { label: 'Results', href: '#results' },
   { label: 'Voices', href: '#testimonials' },
