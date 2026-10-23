@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feasibility as a Service — SustainEstates</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0f0e0c;
+  --ink-mid: #4a4640;
+  --ink-soft: #8a8480;
+  --parchment: #f7f4ef;
+  --warm-white: #fdfcfa;
+  --gold: #b8965a;
+  --gold-light: #d4b07a;
+  --gold-pale: #f0e8d8;
+  --accent: #2a4a3e;
+  --accent-light: #3d6b5c;
+  --border: rgba(184,150,90,0.25);
+  --border-soft: rgba(15,14,12,0.08);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--parchment);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+/* NOISE TEXTURE OVERLAY */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0.6;
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 3rem;
+  background: rgba(247,244,239,0.88);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  text-decoration: none;
+}
+.nav-brand span { color: var(--gold); }
+.nav-cta {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.6rem 1.5rem;
+  background: var(--ink);
+  color: var(--warm-white);
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  text-decoration: none;
+  display: inline-block;
+}
+.nav-cta:hover { background: var(--accent); transform: translateY(-1px); }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  padding-top: 5rem;
+}
+.hero-left {
+  padding: 6rem 3rem 4rem 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+.hero-eyebrow {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.2s forwards;
+}
+.hero-eyebrow::before {
+  content: '';
+  display: block;
+  width: 2rem;
+  height: 1px;
+  background: var(--gold);
+}
+.hero-h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3rem, 5vw, 4.5rem);
+  font-weight: 300;
+  line-height: 1.1;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.35s forwards;
+}
+.hero-h1 em {
+  font-style: italic;
+  color: var(--gold);
+}
+.hero-h1 strong {
+  font-weight: 600;
+  display: block;
+}
+.hero-sub {
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--ink-mid);
+  margin: 1.75rem 0 2.5rem;
+  max-width: 460px;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.5s forwards;
+}
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.65s forwards;
+}
+.btn-primary {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 1rem 2.5rem;
+  background: var(--ink);
+  color: var(--warm-white);
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.btn-primary:hover { background: var(--accent); transform: translateY(-2px); }
+.btn-primary svg { transition: transform 0.2s; }
+.btn-primary:hover svg { transform: translateX(3px); }
+.btn-ghost {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--ink-mid);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 2px;
+  transition: color 0.2s, border-color 0.2s;
+}
+.btn-ghost:hover { color: var(--ink); border-color: var(--ink); }
+
+.hero-stats {
+  margin-top: 3.5rem;
+  display: flex;
+  gap: 2.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.8s forwards;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-soft);
+}
+.stat-item {}
+.stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem;
+  font-weight: 300;
+  color: var(--ink);
+  line-height: 1;
+}
+.stat-num span { color: var(--gold); }
+.stat-lbl {
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+  margin-top: 0.35rem;
+  text-transform: uppercase;
+}
+
+.hero-right {
+  position: relative;
+  overflow: hidden;
+}
+.hero-right-inner {
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  opacity: 0;
+  animation: fadeIn 1s 0.3s forwards;
+}
+.hero-diagram {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2.5rem;
+  z-index: 2;
+}
+.hero-diagram-inner {
+  width: 100%;
+  max-width: 380px;
+  opacity: 0;
+  animation: fadeUp 0.9s 0.7s forwards;
+}
+.diagram-title {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+.timeline-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0;
+  position: relative;
+}
+.timeline-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 19px;
+  top: 38px;
+  width: 1px;
+  height: calc(100% + 4px);
+  background: rgba(255,255,255,0.12);
+}
+.tl-marker {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--gold-light);
+}
+.tl-body {
+  flex: 1;
+  padding-bottom: 1.75rem;
+}
+.tl-label {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.85);
+  margin-bottom: 0.2rem;
+}
+.tl-sub {
+  font-size: 0.67rem;
+  color: rgba(255,255,255,0.4);
+  line-height: 1.5;
+}
+.tl-badge {
+  display: inline-block;
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  padding: 2px 8px;
+  background: rgba(184,150,90,0.2);
+  border: 1px solid rgba(184,150,90,0.35);
+  color: var(--gold-light);
+  margin-top: 0.4rem;
+  border-radius: 2px;
+}
+
+/* SECTION: VALUE PROPS */
+.section {
+  padding: 7rem 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.section-eyebrow {
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.section-eyebrow::before {
+  content: '';
+  display: block;
+  width: 1.5rem;
+  height: 1px;
+  background: var(--gold);
+}
+.section-h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 300;
+  line-height: 1.2;
+  color: var(--ink);
+  max-width: 600px;
+  margin-bottom: 1rem;
+}
+.section-h2 em { font-style: italic; color: var(--gold); }
+
+.props-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-top: 4rem;
+  background: var(--border-soft);
+}
+.prop-card {
+  background: var(--warm-white);
+  padding: 2.5rem 2rem;
+  position: relative;
+  transition: background 0.2s;
+}
+.prop-card:hover { background: var(--gold-pale); }
+.prop-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3.5rem;
+  font-weight: 300;
+  color: var(--border);
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+.prop-icon {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 1.25rem;
+  color: var(--gold);
+}
+.prop-title {
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+}
+.prop-text {
+  font-size: 0.85rem;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--ink-mid);
+}
+
+/* PROCESS SECTION */
+.process-wrap {
+  background: var(--ink);
+  padding: 7rem 3rem;
+  position: relative;
+  overflow: hidden;
+}
+.process-wrap::before {
+  content: 'FaaS';
+  position: absolute;
+  right: -2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.02);
+  pointer-events: none;
+  line-height: 1;
+}
+.process-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.process-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  margin-bottom: 5rem;
+  align-items: end;
+}
+.process-h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 300;
+  color: var(--warm-white);
+  line-height: 1.2;
+}
+.process-h2 em { font-style: italic; color: var(--gold-light); }
+.process-desc {
+  font-size: 0.9rem;
+  font-weight: 300;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.5);
+}
+.process-steps {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0;
+  position: relative;
+}
+.process-steps::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 5%;
+  right: 5%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(184,150,90,0.3), rgba(184,150,90,0.3), transparent);
+}
+.p-step {
+  padding: 0 1rem;
+  position: relative;
+  text-align: center;
+}
+.p-step-dot {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--ink);
+  border: 1px solid rgba(184,150,90,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--gold-light);
+  position: relative;
+  z-index: 2;
+}
+.p-step-title {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 0.6rem;
+}
+.p-step-q {
+  font-size: 0.75rem;
+  font-weight: 300;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.35);
+  font-style: italic;
+}
+.p-step-tag {
+  display: inline-block;
+  font-size: 0.6rem;
+  padding: 2px 8px;
+  border: 1px solid rgba(184,150,90,0.25);
+  color: rgba(184,150,90,0.6);
+  margin-top: 0.75rem;
+  letter-spacing: 0.06em;
+}
+
+/* ONBOARDING FORM SECTION */
+.form-section {
+  padding: 7rem 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 6rem;
+  align-items: start;
+}
+.form-left {}
+.form-lead {
+  font-size: 0.88rem;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--ink-mid);
+  margin-top: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+.form-promise {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+.promise-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.82rem;
+  font-weight: 300;
+  color: var(--ink-mid);
+  line-height: 1.5;
+}
+.promise-item::before {
+  content: '';
+  display: block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
+  margin-top: 0.45rem;
+  flex-shrink: 0;
+}
+
+/* FORM */
+.signup-form {
+  background: var(--warm-white);
+  border: 1px solid var(--border);
+  padding: 2.5rem;
+}
+.form-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 0.4rem;
+}
+.form-subtitle {
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  margin-bottom: 2rem;
+  font-weight: 300;
+}
+.form-step-indicator {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 1.75rem;
+}
+.fsi-dot {
+  height: 2px;
+  flex: 1;
+  background: var(--border-soft);
+  transition: background 0.3s;
+}
+.fsi-dot.active { background: var(--gold); }
+
+.form-group { margin-bottom: 1.25rem; }
+.form-label {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 0.5rem;
+}
+.form-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: var(--parchment);
+  border: 1px solid var(--border-soft);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 300;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+.form-input:focus {
+  border-color: var(--gold);
+  background: var(--warm-white);
+}
+.form-input::placeholder { color: var(--ink-soft); }
+
+.radio-group { display: flex; flex-direction: column; gap: 8px; }
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--border-soft);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  position: relative;
+  background: var(--parchment);
+}
+.radio-option:hover { background: var(--gold-pale); border-color: var(--border); }
+.radio-option input { position: absolute; opacity: 0; }
+.radio-option input:checked ~ .radio-custom { background: var(--gold); border-color: var(--gold); }
+.radio-option input:checked ~ * { color: var(--ink); }
+.radio-option:has(input:checked) { background: var(--gold-pale); border-color: var(--gold); }
+.radio-custom {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  flex-shrink: 0;
+  transition: all 0.15s;
+}
+.radio-label {
+  font-size: 0.82rem;
+  font-weight: 300;
+  color: var(--ink-mid);
+}
+
+.form-step { display: none; }
+.form-step.active { display: block; }
+
+.form-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border-soft);
+}
+.step-counter {
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: var(--ink-soft);
+  letter-spacing: 0.06em;
+}
+.btn-next {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.7rem 1.75rem;
+  background: var(--ink);
+  color: var(--warm-white);
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.btn-next:hover { background: var(--accent); }
+.btn-back {
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--ink-soft);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+  letter-spacing: 0.06em;
+}
+.btn-back:hover { color: var(--ink); }
+
+.success-state {
+  display: none;
+  text-align: center;
+  padding: 2rem 0;
+}
+.success-icon {
+  width: 56px;
+  height: 56px;
+  border: 1.5px solid var(--gold);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  color: var(--gold);
+}
+.success-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem;
+  font-weight: 300;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+}
+.success-text {
+  font-size: 0.85rem;
+  font-weight: 300;
+  color: var(--ink-mid);
+  line-height: 1.7;
+}
+
+/* SOCIAL PROOF */
+.proof-band {
+  background: var(--gold-pale);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 2.5rem 3rem;
+}
+.proof-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+}
+.proof-label {
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+.proof-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+.proof-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 300;
+  color: var(--ink-mid);
+}
+.proof-item::before {
+  content: '';
+  display: block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+
+/* FOOTER */
+footer {
+  background: var(--ink);
+  padding: 2.5rem 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--warm-white);
+  letter-spacing: 0.08em;
+}
+.footer-brand span { color: var(--gold); }
+.footer-links {
+  display: flex;
+  gap: 2rem;
+}
+.footer-link {
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.35);
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  transition: color 0.2s;
+}
+.footer-link:hover { color: rgba(255,255,255,0.7); }
+.footer-copy {
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.25);
+}
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-right { min-height: 400px; position: relative; }
+  .hero-right-inner { position: absolute; }
+  .props-grid { grid-template-columns: 1fr; }
+  .process-steps { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .process-steps::before { display: none; }
+  .process-header { grid-template-columns: 1fr; gap: 1.5rem; }
+  .form-section { grid-template-columns: 1fr; gap: 3rem; }
+  nav { padding: 1rem 1.5rem; }
+  .section { padding: 4rem 1.5rem; }
+  .form-section { padding: 4rem 1.5rem; }
+  .process-wrap { padding: 4rem 1.5rem; }
+  .hero-left { padding: 4rem 1.5rem 3rem; }
+  .proof-inner { flex-direction: column; gap: 1.5rem; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-brand">Sustain<span>Estates</span></a>
+  <a href="#anmelden" class="nav-cta">Jetzt anmelden</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Feasibility as a Service</div>
+    <h1 class="hero-h1">
+      <em>Bevor</em> Sie planen —<br>
+      <strong>wissen Sie, ob es sich lohnt.</strong>
+    </h1>
+    <p class="hero-sub">
+      In 10–15 Tagen erhalten Immobilienbestandshalter und Investoren eine investmentgrade Machbarkeitsstudie mit klarer Entwicklungsstrategie — bevor die erste Planungsrechnung kommt.
+    </p>
+    <div class="hero-actions">
+      <a href="#anmelden" class="btn-primary">
+        Gespräch anfragen
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
+      </a>
+      <a href="#prozess" class="btn-ghost">Wie funktioniert FaaS?</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">10<span>–15</span></div>
+        <div class="stat-lbl">Werktage Durchlaufzeit</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">3<span>+</span></div>
+        <div class="stat-lbl">Entwicklungsvarianten</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">100<span>%</span></div>
+        <div class="stat-lbl">ROI-getrieben</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-right-inner"></div>
+    <div class="hero-diagram">
+      <div class="hero-diagram-inner">
+        <div class="diagram-title">FaaS — Typischer Projektverlauf</div>
+        <div class="timeline-step">
+          <div class="tl-marker">1</div>
+          <div class="tl-body">
+            <div class="tl-label">Bestandsaufnahme & Zielprofil</div>
+            <div class="tl-sub">Objektdaten, Investorenziele, Marktumfeld</div>
+            <div class="tl-badge">Tag 1–2</div>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="tl-marker">2</div>
+          <div class="tl-body">
+            <div class="tl-label">Variantenentwicklung</div>
+            <div class="tl-sub">3–5 Entwicklungsszenarien inkl. Hybrid-Option</div>
+            <div class="tl-badge">Tag 3–7</div>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="tl-marker">3</div>
+          <div class="tl-body">
+            <div class="tl-label">ROI- & Risikoanalyse</div>
+            <div class="tl-sub">NIY, Capex, Lifecycle-Kosten, Exitszenarien</div>
+            <div class="tl-badge">Tag 8–11</div>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="tl-marker">4</div>
+          <div class="tl-body">
+            <div class="tl-label">Empfehlung & Entscheidungsvorlage</div>
+            <div class="tl-sub">Investment-grade Dokumentation, Präsentation</div>
+            <div class="tl-badge">Tag 12–15</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUE PROPS -->
+<section class="section">
+  <div class="section-eyebrow">Warum FaaS</div>
+  <h2 class="section-h2">Strategie zuerst. <em>Dann</em> Planung.</h2>
+  <div class="props-grid">
+    <div class="prop-card reveal">
+      <div class="prop-num">01</div>
+      <div class="prop-title">Kostensicherheit</div>
+      <div class="prop-text">Planungskosten entstehen erst, wenn die Entwicklungsstrategie steht. Kein Geld für Konzepte, die am Ende nicht umgesetzt werden.</div>
+    </div>
+    <div class="prop-card reveal">
+      <div class="prop-num">02</div>
+      <div class="prop-title">Zeitersparnis</div>
+      <div class="prop-text">10–15 Tage statt monatelanger Planungsrunden. Die FaaS-Studie gibt Ihrer Planung eine klare Richtung — von Anfang an.</div>
+    </div>
+    <div class="prop-card reveal">
+      <div class="prop-num">03</div>
+      <div class="prop-title">Investorenreife</div>
+      <div class="prop-text">Investment-grade Dokumentation mit ROI, Risikoanalyse und Variantenvergleich — direkt verwertbar für Investoren, Banken und Boards.</div>
+    </div>
+    <div class="prop-card reveal">
+      <div class="prop-num">04</div>
+      <div class="prop-title">KI-gestützt, Human in the Loop</div>
+      <div class="prop-text">Generative und agentische KI beschleunigen die Analyse. Die Bewertung und Empfehlung bleibt immer beim Experten.</div>
+    </div>
+    <div class="prop-card reveal">
+      <div class="prop-num">05</div>
+      <div class="prop-title">ESG-kompatibel</div>
+      <div class="prop-text">DGNB, BREEAM, EU-Taxonomie und SFDR Art. 8/9 werden von Anfang an in die Variantenbewertung integriert.</div>
+    </div>
+    <div class="prop-card reveal">
+      <div class="prop-num">06</div>
+      <div class="prop-title">Alle Assetklassen</div>
+      <div class="prop-text">Büro, Wohnen, Einzelhandel, Logistik, Mixed-Use — und distressed Assets, die eine neue Entwicklungsstrategie brauchen.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<div id="prozess" class="process-wrap">
+  <div class="process-inner">
+    <div class="process-header reveal">
+      <div>
+        <div class="section-eyebrow" style="color: rgba(184,150,90,0.7);">Der Anmeldeprozess</div>
+        <h2 class="process-h2">In 5 Schritten zum <em>persönlichen Gespräch</em></h2>
+      </div>
+      <p class="process-desc">Kein langes Formular. Wir stellen Ihnen fünf gezielte Fragen, um zu verstehen, ob und wie FaaS für Ihr Objekt der richtige nächste Schritt ist.</p>
+    </div>
+    <div class="process-steps">
+      <div class="p-step reveal">
+        <div class="p-step-dot">1</div>
+        <div class="p-step-title">Erstkontakt</div>
+        <div class="p-step-q">Name, Unternehmen, Funktion</div>
+        <div class="p-step-tag">Willkommens-DM</div>
+      </div>
+      <div class="p-step reveal">
+        <div class="p-step-dot">2</div>
+        <div class="p-step-title">Qualifizierung</div>
+        <div class="p-step-q">Assetklasse & Objektgröße</div>
+        <div class="p-step-tag">Fragen 1 + 3</div>
+      </div>
+      <div class="p-step reveal">
+        <div class="p-step-dot">3</div>
+        <div class="p-step-title">Bedarfsprofil</div>
+        <div class="p-step-q">Schmerz & Mehrwert</div>
+        <div class="p-step-tag">Fragen 2 + 5</div>
+      </div>
+      <div class="p-step reveal">
+        <div class="p-step-dot">4</div>
+        <div class="p-step-title">Timing & Fit</div>
+        <div class="p-step-q">Wann entscheiden Sie?</div>
+        <div class="p-step-tag">Frage 4</div>
+      </div>
+      <div class="p-step reveal">
+        <div class="p-step-dot">5</div>
+        <div class="p-step-title">Aktivierung</div>
+        <div class="p-step-q">Gespräch, Fallstudie oder Newsletter</div>
+        <div class="p-step-tag">Lead-Score</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FORM SECTION -->
+<section id="anmelden" class="form-section">
+  <div class="form-left reveal">
+    <div class="section-eyebrow">Jetzt starten</div>
+    <h2 class="section-h2">Finden Sie heraus, was Ihr Objekt <em>wirklich</em> kann.</h2>
+    <p class="form-lead">
+      Nehmen Sie sich 2 Minuten Zeit. Wir verstehen Ihr Objekt und Ihre Ziele — und melden uns mit dem passenden nächsten Schritt.
+    </p>
+    <div class="form-promise">
+      <div class="promise-item">Keine Planungskosten vor der Strategieentscheidung</div>
+      <div class="promise-item">Ergebnis in 10–15 Werktagen</div>
+      <div class="promise-item">Kostenfreies Erstgespräch für qualifizierte Projekte</div>
+      <div class="promise-item">Diskrete Behandlung aller Objektdaten</div>
+    </div>
+  </div>
+
+  <div class="signup-form reveal" id="signupForm">
+    <h3 class="form-title">Ihr Objektprofil</h3>
+    <p class="form-subtitle">Schritt <span id="stepNum">1</span> von 4</p>
+    <div class="form-step-indicator">
+      <div class="fsi-dot active" id="fsi1"></div>
+      <div class="fsi-dot" id="fsi2"></div>
+      <div class="fsi-dot" id="fsi3"></div>
+      <div class="fsi-dot" id="fsi4"></div>
+    </div>
+
+    <!-- Step 1: Kontakt -->
+    <div class="form-step active" id="step1">
+      <div class="form-group">
+        <label class="form-label">Name</label>
+        <input type="text" class="form-input" placeholder="Ihr Vorname und Name" id="inp-name">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Unternehmen</label>
+        <input type="text" class="form-input" placeholder="Firma / Fonds / Family Office" id="inp-company">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Funktion</label>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="role" value="investor"><div class="radio-custom"></div><span class="radio-label">Investor / Family Office</span></label>
+          <label class="radio-option"><input type="radio" name="role" value="holder"><div class="radio-custom"></div><span class="radio-label">Bestandshalter / Asset Manager</span></label>
+          <label class="radio-option"><input type="radio" name="role" value="developer"><div class="radio-custom"></div><span class="radio-label">Projektentwickler</span></label>
+          <label class="radio-option"><input type="radio" name="role" value="other"><div class="radio-custom"></div><span class="radio-label">Sonstiges</span></label>
+        </div>
+      </div>
+      <div class="form-nav">
+        <span class="step-counter">Schritt 1 / 4</span>
+        <button class="btn-next" onclick="nextStep(2)">Weiter <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 6h8M6 2l4 4-4 4"/></svg></button>
+      </div>
+    </div>
+
+    <!-- Step 2: Objekt -->
+    <div class="form-step" id="step2">
+      <div class="form-group">
+        <label class="form-label">Welche Assetklasse? (Frage 1)</label>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="asset" value="office"><div class="radio-custom"></div><span class="radio-label">Büro</span></label>
+          <label class="radio-option"><input type="radio" name="asset" value="resi"><div class="radio-custom"></div><span class="radio-label">Wohnen</span></label>
+          <label class="radio-option"><input type="radio" name="asset" value="retail"><div class="radio-custom"></div><span class="radio-label">Einzelhandel</span></label>
+          <label class="radio-option"><input type="radio" name="asset" value="logistics"><div class="radio-custom"></div><span class="radio-label">Logistik</span></label>
+          <label class="radio-option"><input type="radio" name="asset" value="mixed"><div class="radio-custom"></div><span class="radio-label">Mixed-Use</span></label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Objektgröße BGF (Frage 3)</label>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="size" value="small"><div class="radio-custom"></div><span class="radio-label">Unter 5.000 m²</span></label>
+          <label class="radio-option"><input type="radio" name="size" value="mid"><div class="radio-custom"></div><span class="radio-label">5.000 – 20.000 m²</span></label>
+          <label class="radio-option"><input type="radio" name="size" value="large"><div class="radio-custom"></div><span class="radio-label">Über 20.000 m²</span></label>
+        </div>
+      </div>
+      <div class="form-nav">
+        <button class="btn-back" onclick="nextStep(1)">← Zurück</button>
+        <button class="btn-next" onclick="nextStep(3)">Weiter <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 6h8M6 2l4 4-4 4"/></svg></button>
+      </div>
+    </div>
+
+    <!-- Step 3: Pain & Value -->
+    <div class="form-step" id="step3">
+      <div class="form-group">
+        <label class="form-label">Haben Sie bereits Planungskosten vor der Strategie investiert? (Frage 2)</label>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="pain" value="yes"><div class="radio-custom"></div><span class="radio-label">Ja — das ist uns passiert</span></label>
+          <label class="radio-option"><input type="radio" name="pain" value="current"><div class="radio-custom"></div><span class="radio-label">Wir befinden uns gerade in dieser Situation</span></label>
+          <label class="radio-option"><input type="radio" name="pain" value="no"><div class="radio-custom"></div><span class="radio-label">Nein — wir wollen das vermeiden</span></label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Was wäre Ihr größter Mehrwert? (Frage 5)</label>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="value" value="time"><div class="radio-custom"></div><span class="radio-label">Zeitersparnis</span></label>
+          <label class="radio-option"><input type="radio" name="value" value="cost"><div class="radio-custom"></div><span class="radio-label">Kostensicherheit</span></label>
+          <label class="radio-option"><input type="radio" name="value" value="investor"><div class="radio-custom"></div><span class="radio-label">Investorenentscheidung beschleunigen</span></label>
+        </div>
+      </div>
+      <div class="form-nav">
+        <button class="btn-back" onclick="nextStep(2)">← Zurück</button>
+        <button class="btn-next" onclick="nextStep(4)">Weiter <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 6h8M6 2l4 4-4 4"/></svg></button>
+      </div>
+    </div>
+
+    <!-- Step 4: Timing -->
+    <div class="form-step" id="step4">
+      <div class="form-group">
+        <label class="form-label">Wann ist die Strategieentscheidung geplant? (Frage 4)</label>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="timing" value="3mo"><div class="radio-custom"></div><span class="radio-label">In den nächsten 3 Monaten</span></label>
+          <label class="radio-option"><input type="radio" name="timing" value="6mo"><div class="radio-custom"></div><span class="radio-label">In 3–6 Monaten</span></label>
+          <label class="radio-option"><input type="radio" name="timing" value="12mo"><div class="radio-custom"></div><span class="radio-label">In 6–12 Monaten</span></label>
+          <label class="radio-option"><input type="radio" name="timing" value="later"><div class="radio-custom"></div><span class="radio-label">Noch offen / später</span></label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">E-Mail-Adresse</label>
+        <input type="email" class="form-input" placeholder="fuer@ihrenachricht.de" id="inp-email">
+      </div>
+      <div class="form-nav">
+        <button class="btn-back" onclick="nextStep(3)">← Zurück</button>
+        <button class="btn-next" onclick="submitForm()">Absenden <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 6h8M6 2l4 4-4 4"/></svg></button>
+      </div>
+    </div>
+
+    <!-- Success -->
+    <div class="success-state" id="successState">
+      <div class="success-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12l5 5L19 7"/></svg>
+      </div>
+      <div class="success-title">Vielen Dank!</div>
+      <p class="success-text">Wir haben Ihre Angaben erhalten und melden uns innerhalb von 24 Stunden mit dem passenden nächsten Schritt — ob Erstgespräch, Fallstudie oder FaaS-Insights.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF BAND -->
+<div class="proof-band">
+  <div class="proof-inner">
+    <div class="proof-label">Kompatibel mit</div>
+    <div class="proof-items">
+      <div class="proof-item">DGNB / BREEAM / LEED</div>
+      <div class="proof-item">EU-Taxonomie</div>
+      <div class="proof-item">SFDR Art. 8 / 9</div>
+      <div class="proof-item">KAGB / AIF-Strukturen</div>
+      <div class="proof-item">DIN 276 / GEFMA 220</div>
+      <div class="proof-item">Forward Funding / Purchase</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">Sustain<span>Estates</span> GmbH</div>
+  <div class="footer-links">
+    <a href="https://www.SustainEstates.com" class="footer-link" target="_blank" rel="noopener noreferrer">sustainestates.com</a>
+    <a href="https://www.linkedin.com/in/rezakeschawarz" class="footer-link" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    <a href="mailto:info@sustainestates.com" class="footer-link">Kontakt</a>
+  </div>
+  <div class="footer-copy">© 2025 SustainEstates GmbH</div>
+</footer>
+
+<script>
+let currentStep = 1;
+
+function nextStep(step) {
+  document.getElementById('step' + currentStep).classList.remove('active');
+  document.getElementById('step' + step).classList.add('active');
+  currentStep = step;
+  document.getElementById('stepNum').textContent = step;
+  for (let i = 1; i <= 4; i++) {
+    const dot = document.getElementById('fsi' + i);
+    if (dot) dot.classList.toggle('active', i <= step);
+  }
+}
+
+const ROLE_LABELS = {
+  investor: 'Investor / Family Office',
+  holder: 'Bestandshalter / Asset Manager',
+  developer: 'Projektentwickler',
+  other: 'Sonstiges'
+};
+const ASSET_LABELS = {
+  office: 'Büro', resi: 'Wohnen', retail: 'Einzelhandel',
+  logistics: 'Logistik', mixed: 'Mixed-Use'
+};
+const SIZE_LABELS = {
+  small: 'unter 5.000 m²', mid: '5.000–20.000 m²', large: 'über 20.000 m²'
+};
+const PAIN_LABELS = {
+  yes: 'Ja — ist uns passiert',
+  current: 'Aktuell in dieser Situation',
+  no: 'Nein — wollen es vermeiden'
+};
+const VALUE_LABELS = {
+  time: 'Zeitersparnis', cost: 'Kostensicherheit',
+  investor: 'Investorenentscheidung beschleunigen'
+};
+const TIMING_LABELS = {
+  '3mo': 'In den nächsten 3 Monaten',
+  '6mo': 'In 3–6 Monaten',
+  '12mo': 'In 6–12 Monaten',
+  later: 'Noch offen / später'
+};
+
+async function submitForm() {
+  const email = document.getElementById('inp-email').value.trim();
+  if (!email) { alert('Bitte geben Sie Ihre E-Mail-Adresse ein.'); return; }
+  if (!document.getElementById('inp-email').reportValidity()) return;
+
+  const get = (name) => { const el = document.querySelector('input[name="'+name+'"]:checked'); return el ? el.value : ''; };
+
+  const timing  = get('timing');
+  const asset   = get('asset');
+  const score   = timing === '3mo' ? 'HOT LEAD' : timing === '6mo' ? 'WARM LEAD' : 'NURTURING';
+  const aktion  = timing === '3mo'
+    ? 'Sofort Erstgespräch per Calendly anbieten!'
+    : timing === '6mo'
+    ? 'Passende Fallstudie zur Assetklasse zusenden.'
+    : 'In FaaS-Insight-Newsletter aufnehmen.';
+
+  const data = new FormData();
+  data.append('_subject',      '[' + score + '] Neuer FaaS-Lead: ' + document.getElementById('inp-name').value.trim());
+  data.append('Lead-Score',    score);
+  data.append('Empfohlene Aktion', aktion);
+  data.append('Name',          document.getElementById('inp-name').value.trim());
+  data.append('Unternehmen',   document.getElementById('inp-company').value.trim());
+  data.append('email',         email);
+  data.append('Funktion',      ROLE_LABELS[get('role')]   || get('role'));
+  data.append('Assetklasse',   ASSET_LABELS[asset]        || asset);
+  data.append('Objektgröße',   SIZE_LABELS[get('size')]   || get('size'));
+  data.append('Schmerz',       PAIN_LABELS[get('pain')]   || get('pain'));
+  data.append('Mehrwert',      VALUE_LABELS[get('value')] || get('value'));
+  data.append('Timing',        TIMING_LABELS[timing]      || timing);
+  data.append('_replyto',      email);
+
+  const btn = document.querySelector('#step4 .btn-next');
+  btn.textContent = 'Wird gesendet…';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('https://formspree.io/f/xaqabwav', {
+      method: 'POST',
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    });
+    const json = await res.json();
+    if (json.ok || res.ok) {
+      document.getElementById('step4').classList.remove('active');
+      document.getElementById('successState').style.display = 'block';
+      for (let i = 1; i <= 4; i++) {
+        const dot = document.getElementById('fsi' + i);
+        if (dot) dot.classList.add('active');
+      }
+    } else {
+      const msg = (json.errors || []).map(e => e.message).join(', ') || 'Unbekannter Fehler';
+      alert('Fehler: ' + msg + '\nBitte schreiben Sie uns: info@sustainestates.com');
+      btn.textContent = 'Absenden';
+      btn.disabled = false;
+    }
+  } catch(e) {
+    alert('Verbindungsfehler. Bitte versuchen Sie es erneut oder schreiben Sie uns: info@sustainestates.com');
+    btn.textContent = 'Absenden';
+    btn.disabled = false;
+  }
+}
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
